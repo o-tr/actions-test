@@ -27,13 +27,15 @@ jobs:
       - name: Run Prettier format
         run: npx prettier --write "./**/*.md"
 
-      - name: Check for changes
-        id: git_diff
+      - name: Commit and Push changes
+        env:
+          HEAD_REF: ${{ github.head_ref }}
         run: |
-          (git diff --exit-code > /dev/null) || echo "changes"
-        continue-on-error: true
-
-      - name: Commit and push changes
-        if: steps.git_diff.outputs.changes == 'true'
-        run: |
-          git add . && git commit -m "Format markdown files" && git push
+          git config --local user.name "github-actions[bot]"
+          git add .
+          if git commit -m "[GitHub Actions] swift-format"; then
+            echo "Changes committed, pushing to repository..."
+            git push origin HEAD:"${HEAD_REF}"
+          else
+            echo "No changes to commit"
+          fi
