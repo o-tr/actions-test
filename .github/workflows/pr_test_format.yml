@@ -31,8 +31,9 @@ jobs:
         id: git_diff
         run: |
           (git diff --exit-code > /dev/null) || echo "changes"
+        continue-on-error: true
 
-      - name: Check for changes
-        if: steps.git_diff.outputs.changes == 'changes'
+      - name: Commit and push changes
+        if: steps.git_diff.outputs.changes == 'true'
         run: |
           git add . && git commit -m "Format markdown files" && git push
