@@ -6,6 +6,8 @@ sidebar_position: 1
 
 [![](https://img.shields.io/badge/GitHub-vpm-181717.svg?logo=github&style=flat)](https://github.com/o-tr/vpm)
 
+てすと
+
 ImageTab v0.0.5 以前は booth 及び GitHub のリリースから配布を行っていましたが、現在は VPM からのみの配布となっています  
 パッケージを利用される場合は VPM 経由の導入をお願いします
 
