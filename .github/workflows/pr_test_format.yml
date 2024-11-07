@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   format-check:
-    runs-on: arc-runners-ootr
+    runs-on: arc-runners-ootr-self
 
     steps:
       - uses: actions/checkout@v4
