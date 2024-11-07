@@ -31,7 +31,10 @@ jobs:
         env:
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          git config --local user.name "github-actions[bot]"
+          LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
+          LAST_COMMIT_EMAIL=$(git log -1 --pretty=format:'%ae')
+          git config --local user.name "${LAST_COMMIT_AUTHOR}"
+          git config --local user.email "${LAST_COMMIT_EMAIL}"
           git add .
           if git commit -m "[GitHub Actions] swift-format"; then
             echo "Changes committed, pushing to repository..."
