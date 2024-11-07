@@ -1,0 +1,38 @@
+name: PR Format
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "**/*.md"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  format-check:
+    runs-on: arc-runners-ootr
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Prettier format
+        run: npx prettier --write "./**/*.md"
+
+      - name: Check for changes
+        id: git_diff
+        run: |
+          git diff --exit-code || echo "changes"
+
+      - name: Check for changes
+        if: steps.git_diff.outputs.changes == 'changes'
+        run: |
+          git add . && git commit -m "Format markdown files" && git push
