@@ -30,7 +30,7 @@ jobs:
       - name: Check for changes
         id: git_diff
         run: |
-          git diff --exit-code || echo "changes"
+          (git diff --exit-code > /dev/null) || echo "changes"
 
       - name: Check for changes
         if: steps.git_diff.outputs.changes == 'changes'
